@@ -1,0 +1,29 @@
+lines.py
+  s_c8c89555c1b438::t_489434d0e8550c 4-35,38-67,74-75
+  s_c8c89555c1b438::t_983cbef5d1343f 1-3,36-37,68-73,76-80
+make_voices.py
+  s_c8c89555c1b438::t_983cbef5d1343f 1-15,17-19
+  s_c8c89555c1b438::t_489434d0e8550c 16
+bumbu.py
+  s_c8c89555c1b438::t_983cbef5d1343f 2,4,7-21,47-48,63-66,97,187,189-193
+.github/workflows/build.yml
+  s_c8c89555c1b438::t_14d4b2b1f1d5ec 17
+build.bat
+  s_c8c89555c1b438::t_d85bb49a149775 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3ebfff801d5659b7dbbe542e3d044dfec4d2cec5",
+  "prompts": {},
+  "sessions": {
+    "s_c8c89555c1b438": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "eeef5ca9-1ac9-4565-b879-e4acf8e45e76",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Nikhil Barik <nklmarch17@gmail.com>"
+    }
+  }
+}
