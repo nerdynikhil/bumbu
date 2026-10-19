@@ -1,0 +1,19 @@
+bumbu.py
+  s_c8c89555c1b438::t_bd1891e0a21de7 11-13,29-35,48,73-74,78-101,103-104,106-107,113-117
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b1ef9a328207c0fb0a6eb048d67162e0fa71c7dc",
+  "prompts": {},
+  "sessions": {
+    "s_c8c89555c1b438": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "eeef5ca9-1ac9-4565-b879-e4acf8e45e76",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Nikhil Barik <nklmarch17@gmail.com>"
+    }
+  }
+}
