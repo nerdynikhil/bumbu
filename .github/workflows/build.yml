@@ -1,5 +1,11 @@
 name: build
-on: [push, workflow_dispatch]
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+permissions:
+  contents: write
 jobs:
   exe:
     runs-on: windows-latest
@@ -9,7 +15,13 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install pyinstaller && pyinstaller --onefile --noconsole --name Bumbu bumbu.py
+      - run: choco install innosetup -y --no-progress
+      - run: '& "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss'
       - uses: actions/upload-artifact@v4
         with:
           name: Bumbu
-          path: dist/Bumbu.exe
+          path: dist/BumbuSetup.exe
+      - if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/BumbuSetup.exe
