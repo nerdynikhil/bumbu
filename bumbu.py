@@ -2,9 +2,9 @@ import math
 import random
 import tkinter as tk
 
-W, H = 200, 140
-S = 0.5  # pet size
-DX, DY = W / 2 - 110 * S, 17  # where the scaled pet sits in the window
+W, H = 200, 82
+S = 0.1  # pet size
+DX, DY = W / 2 - 110 * S, 56  # where the scaled pet sits in the window (under the bubble)
 KEY = "#ff00fe"  # transparent color key
 PINK, PINK_DARK, TEAL = "#f9b8c8", "#f4a3b8", "#6fd6d6"
 CX, CY = 110, 145  # head center
@@ -63,7 +63,7 @@ class Pet:
     def tick(self):
         px, py = self.root.winfo_pointerxy()
         # sit just right of the cursor so we never cover it
-        tx, ty = px - 30, py - 80
+        tx, ty = px - 80, py - 70
         self.x += (tx - self.x) * 0.08
         self.y += (ty - self.y) * 0.08
         self.root.geometry(f"+{int(self.x)}+{int(self.y)}")
@@ -95,7 +95,7 @@ class Pet:
             self.oval(hx - 3, hy - 3, hx + 3, hy + 3, "white")
         if my is not None:
             self.canvas.create_arc(CX - 9, my, CX + 9, my + 14, start=200, extent=140,
-                                   style="arc", width=2, tags="pet")
+                                   style="arc", width=1, tags="pet")
         cy = (my if my is not None else ey + 12) + 7
         for bx in (CX - gap - 14, CX + gap + 14):
             self.oval(bx - 7, cy - 3, bx + 7, cy + 3, cheeks)
@@ -115,7 +115,7 @@ class Pet:
         fur, edge, pink = "#ffc48a", "#f0a868", "#ffb3c1"
         c = self.canvas
         c.create_line(CX + 35, y + 68, CX + 78, y + 62, CX + 82, y + 22, smooth=True,
-                      width=7, fill=edge, capstyle="round", tags="pet")
+                      width=max(1, round(14 * S)), fill=edge, capstyle="round", tags="pet")
         self.oval(CX - 45, y + 10, CX + 45, y + 78, fur, edge, 2)
         for s_ in (-1, 1):
             c.create_polygon(CX + s_ * 48, y - 22, CX + s_ * 40, y - 66, CX + s_ * 10, y - 42,
@@ -150,7 +150,7 @@ class Pet:
         self.oval(CX + 18, y + 18, CX + 62, y + 52, edge)
         self.oval(CX - 42, y - 58, CX + 42, y + 22, body, edge, 2)
         self.canvas.create_line(CX - 2, y - 56, CX - 8, y - 70, CX + 6, y - 64, smooth=True,
-                                width=2, fill=edge, tags="pet")
+                                width=1, fill=edge, tags="pet")
         self.face(y - 24, 17)
         self.oval(CX - 15, y - 12, CX + 15, y + 4, beak, "#f08a2c")
 
