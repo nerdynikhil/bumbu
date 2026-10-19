@@ -1,0 +1,25 @@
+bumbu.py
+  s_c8c89555c1b438::t_661ca19bee80b1 8-9,25-27,29,34-48,65-68,75-78,82-83,92,124-131,162-190
+art/slice.py
+  s_c8c89555c1b438::t_f24bf22fc997d7 1-44
+.github/workflows/build.yml
+  s_c8c89555c1b438::t_c4c61e860baa6e 17
+build.bat
+  s_c8c89555c1b438::t_7a8122b3b07c7e 2-3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1e6eb1c16fd775b82c45da7357faf1285788e16e",
+  "prompts": {},
+  "sessions": {
+    "s_c8c89555c1b438": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "eeef5ca9-1ac9-4565-b879-e4acf8e45e76",
+        "model": "unknown"
+      },
+      "human_author": "Nikhil Barik <nklmarch17@gmail.com>"
+    }
+  }
+}
