@@ -17,11 +17,9 @@ Source: "dist\Bumbu.exe"; DestDir: "{app}"
 Name: "{group}\Bumbu"; Filename: "{app}\Bumbu.exe"
 Name: "{group}\Uninstall Bumbu"; Filename: "{uninstallexe}"
 Name: "{autodesktop}\Bumbu"; Filename: "{app}\Bumbu.exe"; Tasks: desktopicon
-Name: "{userstartup}\Bumbu"; Filename: "{app}\Bumbu.exe"; Tasks: startup
 
 [Tasks]
 Name: "desktopicon"; Description: "Create a desktop shortcut"
-Name: "startup"; Description: "Start Bumbu when Windows starts"; Flags: unchecked
 
 [Run]
 Filename: "{app}\Bumbu.exe"; Description: "Launch Bumbu"; Flags: nowait postinstall skipifsilent
