@@ -17,6 +17,8 @@ for y in range(h):
         a = 255 if score < 30 else 0 if score > 80 else int(255 * (80 - score) / 50)
         if bg == "green" and a and g > max(r, b):  # remove green spill on edges
             g = max(r, b)
+        if x > w - 130 and y > h - 130:  # Gemini watermark corner
+            a = 0
         px[x, y] = (r, g, b, a)
 
 # frames = runs of columns that contain character pixels
