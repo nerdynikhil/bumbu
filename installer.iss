@@ -1,6 +1,6 @@
 [Setup]
 AppName=Bumbu
-AppVersion=0.1.0
+AppVersion=0.2.0
 AppPublisher=nerdynikhil
 DefaultDirName={autopf}\Bumbu
 DefaultGroupName=Bumbu
