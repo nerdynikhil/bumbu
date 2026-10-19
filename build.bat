@@ -1,4 +1,4 @@
 @echo off
-pip install pyinstaller
-pyinstaller --onefile --noconsole --name Bumbu --add-data "sounds;sounds" bumbu.py
+pip install pyinstaller pillow
+pyinstaller --onefile --noconsole --name Bumbu --add-data "sounds;sounds" --add-data "sprites;sprites" bumbu.py
 echo Built dist\Bumbu.exe
