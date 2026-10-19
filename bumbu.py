@@ -106,6 +106,59 @@ class Pet:
             lobe(x, y + dy)
         self.face(y - 8, 22, y + 2)
 
+    def cat(self, y, lx, ly):
+        fur, edge, pink = "#ffc48a", "#f0a868", "#ffb3c1"
+        c = self.canvas
+        c.create_line(CX + 35, y + 68, CX + 78, y + 62, CX + 82, y + 22, smooth=True,
+                      width=14, fill=edge, capstyle="round", tags="pet")
+        self.oval(CX - 45, y + 10, CX + 45, y + 78, fur, edge, 2)
+        for s_ in (-1, 1):
+            c.create_polygon(CX + s_ * 48, y - 22, CX + s_ * 40, y - 66, CX + s_ * 10, y - 42,
+                             fill=fur, outline=edge, width=2, tags="pet")
+            c.create_polygon(CX + s_ * 40, y - 28, CX + s_ * 37, y - 54, CX + s_ * 20, y - 40,
+                             fill=pink, tags="pet")
+        self.oval(CX - 52, y - 48, CX + 52, y + 36, fur, edge, 2)
+        for s_ in (-1, 1):
+            self.oval(CX + s_ * 18 - 12, y + 66, CX + s_ * 18 + 12, y + 82, fur, edge, 2)
+            for dy in (6, 13):
+                c.create_line(CX + s_ * 22, y + dy, CX + s_ * 56, y + dy - 4 + dy // 3,
+                              fill=edge, width=2, tags="pet")
+        self.face(y - 8, 22, y + 4)
+
+    def bunny(self, y, lx, ly):
+        fur, edge, pink = "#fffaf5", "#e8d6cc", "#ffc9d6"
+        for s_ in (-1, 1):
+            x1, x2 = sorted((CX + s_ * 10, CX + s_ * 34))
+            self.oval(x1, y - 102, x2, y - 20, fur, edge, 2)
+            self.oval(x1 + 6, y - 92, x2 - 6, y - 30, pink)
+        self.oval(CX - 42, y + 12, CX + 42, y + 74, fur, edge, 2)
+        for s_ in (-1, 1):
+            self.oval(CX + s_ * 26 - 16, y + 62, CX + s_ * 26 + 16, y + 80, fur, edge, 2)
+        self.oval(CX - 50, y - 46, CX + 50, y + 36, fur, edge, 2)
+        self.face(y - 6, 20, y + 4)
+
+    def duck(self, y, lx, ly):
+        body, edge, beak = "#ffe27a", "#f2c94c", "#ff9f43"
+        for s_ in (-1, 1):
+            self.oval(CX + s_ * 22 - 16, y + 62, CX + s_ * 22 + 16, y + 80, beak)
+        self.oval(CX - 60, y - 8, CX + 60, y + 72, body, edge, 2)
+        self.oval(CX + 18, y + 18, CX + 62, y + 52, edge)
+        self.oval(CX - 42, y - 58, CX + 42, y + 22, body, edge, 2)
+        self.canvas.create_line(CX - 2, y - 56, CX - 8, y - 70, CX + 6, y - 64, smooth=True,
+                                width=3, fill=edge, tags="pet")
+        self.face(y - 24, 17)
+        self.oval(CX - 15, y - 12, CX + 15, y + 4, beak, "#f08a2c")
+
+    def frog(self, y, lx, ly):
+        skin, edge = "#9be38b", "#6cc35e"
+        for s_ in (-1, 1):
+            self.oval(CX + s_ * 42 - 20, y + 50, CX + s_ * 42 + 20, y + 72, skin, edge, 2)
+        self.oval(CX - 58, y - 14, CX + 58, y + 64, skin, edge, 2)
+        for s_ in (-1, 1):
+            self.oval(CX + s_ * 28 - 22, y - 52, CX + s_ * 28 + 22, y - 8, skin, edge, 2)
+        self.oval(CX - 50, y - 12, CX + 50, y + 20, skin)  # hide bump outlines into the head
+        self.face(y - 30, 28, y + 8)
+
     def run(self):
         self.root.mainloop()
 
@@ -113,6 +166,10 @@ class Pet:
 # name -> (draw method, extra lines)
 PETS = {
     "Octopus": (Pet.octopus, ["8 arms, all for hugs", "blub blub", "ink-credible work!"]),
+    "Cat": (Pet.cat, ["meow :3", "purr purr", "pet me pls", "i knocked something over"]),
+    "Bunny": (Pet.bunny, ["hop hop!", "got any carrots?", "*nose wiggle*", "some-bunny loves you"]),
+    "Duck": (Pet.duck, ["quack!", "quack quack <3", "you're un-duck-niably great", "waddle waddle"]),
+    "Frog": (Pet.frog, ["ribbit!", "toad-ally proud of you", "hop to it!", "it's a good day to be a frog"]),
 }
 
 if __name__ == "__main__":
