@@ -1,6 +1,23 @@
 import math
+import os
 import random
+import sys
 import tkinter as tk
+
+from lines import LINES, PET_LINES, sound_file
+
+HERE = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
+
+
+def play(line):
+    path = os.path.join(HERE, "sounds", sound_file(line))
+    if sys.platform != "win32" or not os.path.exists(path):
+        return
+    import ctypes
+    mci = ctypes.windll.winmm.mciSendStringW
+    mci("close bumbu", None, 0, None)
+    mci(f'open "{path}" type mpegvideo alias bumbu', None, 0, None)
+    mci("play bumbu", None, 0, None)
 
 W, H = 200, 82
 S = 0.1  # pet size
@@ -8,12 +25,6 @@ DX, DY = W / 2 - 110 * S, 56  # where the scaled pet sits in the window (under t
 KEY = "#ff00fe"  # transparent color key
 PINK, PINK_DARK, TEAL = "#f9b8c8", "#f4a3b8", "#6fd6d6"
 CX, CY = 110, 145  # head center
-LINES = [
-    "hiii :3", "you're doing great!", "boop!", "i like your cursor",
-    "drink some water!", "wanna be friends?", "you're my favorite human",
-    "take a tiny break?", "*wiggles*", "snack time?", "i believe in you!",
-    "don't forget to smile", "uwu",
-]
 
 
 class Pet:
@@ -33,6 +44,8 @@ class Pet:
         for name in PETS:
             self.menu.add_radiobutton(label=name, variable=self.pet, command=self.say)
         self.menu.add_separator()
+        self.sound = tk.BooleanVar(value=True)
+        self.menu.add_checkbutton(label="Sound", variable=self.sound)
         self.menu.add_command(label="Quit", command=self.root.destroy)
         self.root.bind("<Button-3>", lambda e: self.menu.tk_popup(e.x_root, e.y_root))
         self.x, self.y, self.t = 300.0, 300.0, 0
@@ -47,7 +60,10 @@ class Pet:
     def say(self):
         c = self.canvas
         c.delete("bubble")
-        text = c.create_text(W / 2, 22, text=random.choice(LINES + PETS[self.pet.get()][1]), width=180,
+        line = random.choice(LINES + PET_LINES[self.pet.get()])
+        if self.sound.get():
+            play(line)
+        text = c.create_text(W / 2, 22, text=line, width=180,
                              font=("Segoe UI", 10, "bold"), fill="#5a3a4a", tags="bubble")
         x1, y1, x2, y2 = c.bbox(text)
         x1, y1, x2, y2 = x1 - 10, y1 - 8, x2 + 10, y2 + 8
@@ -78,7 +94,7 @@ class Pet:
 
     def draw(self, bob, lx, ly):
         self.canvas.delete("pet")
-        PETS[self.pet.get()][0](self, CY + bob, lx, ly)
+        PETS[self.pet.get()](self, CY + bob, lx, ly)
         self.canvas.scale("pet", 0, 0, S, S)
         self.canvas.move("pet", DX, DY)
         self.canvas.tag_raise("bubble")
@@ -168,13 +184,13 @@ class Pet:
         self.root.mainloop()
 
 
-# name -> (draw method, extra lines)
+# name -> draw method
 PETS = {
-    "Octopus": (Pet.octopus, ["8 arms, all for hugs", "blub blub", "ink-credible work!"]),
-    "Cat": (Pet.cat, ["meow :3", "purr purr", "pet me pls", "i knocked something over"]),
-    "Bunny": (Pet.bunny, ["hop hop!", "got any carrots?", "*nose wiggle*", "some-bunny loves you"]),
-    "Duck": (Pet.duck, ["quack!", "quack quack <3", "you're un-duck-niably great", "waddle waddle"]),
-    "Frog": (Pet.frog, ["ribbit!", "toad-ally proud of you", "hop to it!", "it's a good day to be a frog"]),
+    "Octopus": Pet.octopus,
+    "Cat": Pet.cat,
+    "Bunny": Pet.bunny,
+    "Duck": Pet.duck,
+    "Frog": Pet.frog,
 }
 
 if __name__ == "__main__":
