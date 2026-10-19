@@ -1,3 +1,4 @@
+import math
 import tkinter as tk
 
 W, H = 220, 230
@@ -19,7 +20,23 @@ class Pet:
         self.canvas.pack()
         self.root.geometry(f"{W}x{H}+300+300")
         self.root.bind("<Button-3>", lambda e: self.root.destroy())
-        self.draw(0, 0, 0)
+        self.x, self.y, self.t = 300.0, 300.0, 0
+        self.tick()
+
+    def tick(self):
+        px, py = self.root.winfo_pointerxy()
+        # sit just right of the cursor so we never cover it
+        tx, ty = px + 20, py - 90
+        self.x += (tx - self.x) * 0.08
+        self.y += (ty - self.y) * 0.08
+        self.root.geometry(f"+{int(self.x)}+{int(self.y)}")
+        # eyes look toward cursor
+        dx, dy = px - (self.x + CX), py - (self.y + CY)
+        d = max(1.0, (dx * dx + dy * dy) ** 0.5)
+        self.t += 1
+        bob = 3 * math.sin(self.t / 10)
+        self.draw(bob, 3 * dx / d, 3 * dy / d)
+        self.root.after(16, self.tick)
 
     def lobe(self, x, y, rx=24, ry=15):
         c = self.canvas
