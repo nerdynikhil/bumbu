@@ -2,7 +2,9 @@ import math
 import random
 import tkinter as tk
 
-W, H = 220, 230
+W, H = 200, 140
+S = 0.5  # pet size
+DX, DY = W / 2 - 110 * S, 17  # where the scaled pet sits in the window
 KEY = "#ff00fe"  # transparent color key
 PINK, PINK_DARK, TEAL = "#f9b8c8", "#f4a3b8", "#6fd6d6"
 CX, CY = 110, 145  # head center
@@ -45,13 +47,13 @@ class Pet:
     def say(self):
         c = self.canvas
         c.delete("bubble")
-        text = c.create_text(CX, 38, text=random.choice(LINES + PETS[self.pet.get()][1]), width=180,
-                             font=("Segoe UI", 11, "bold"), fill="#5a3a4a", tags="bubble")
+        text = c.create_text(W / 2, 22, text=random.choice(LINES + PETS[self.pet.get()][1]), width=180,
+                             font=("Segoe UI", 10, "bold"), fill="#5a3a4a", tags="bubble")
         x1, y1, x2, y2 = c.bbox(text)
         x1, y1, x2, y2 = x1 - 10, y1 - 8, x2 + 10, y2 + 8
         r = 10
         pts = [x1 + r, y1, x2 - r, y1, x2, y1, x2, y1 + r, x2, y2 - r, x2, y2,
-               CX + 10, y2, CX, y2 + 12, CX - 6, y2, x1, y2, x1, y2 - r, x1, y1 + r, x1, y1]
+               W / 2 + 8, y2, W / 2, y2 + 9, W / 2 - 5, y2, x1, y2, x1, y2 - r, x1, y1 + r, x1, y1]
         bg = c.create_polygon(pts, smooth=True, fill="white", outline=TEAL, width=2, tags="bubble")
         c.tag_lower(bg, text)
         if getattr(self, "hide_job", None):
@@ -61,12 +63,12 @@ class Pet:
     def tick(self):
         px, py = self.root.winfo_pointerxy()
         # sit just right of the cursor so we never cover it
-        tx, ty = px + 20, py - 90
+        tx, ty = px - 30, py - 80
         self.x += (tx - self.x) * 0.08
         self.y += (ty - self.y) * 0.08
         self.root.geometry(f"+{int(self.x)}+{int(self.y)}")
         # eyes look toward cursor
-        dx, dy = px - (self.x + CX), py - (self.y + CY)
+        dx, dy = px - (self.x + CX * S + DX), py - (self.y + CY * S + DY)
         d = max(1.0, (dx * dx + dy * dy) ** 0.5)
         self.t += 1
         bob = 3 * math.sin(self.t / 10)
@@ -77,10 +79,13 @@ class Pet:
     def draw(self, bob, lx, ly):
         self.canvas.delete("pet")
         PETS[self.pet.get()][0](self, CY + bob, lx, ly)
+        self.canvas.scale("pet", 0, 0, S, S)
+        self.canvas.move("pet", DX, DY)
         self.canvas.tag_raise("bubble")
 
     def oval(self, x1, y1, x2, y2, fill, outline="", width=1):
-        self.canvas.create_oval(x1, y1, x2, y2, fill=fill, outline=outline, width=width, tags="pet")
+        self.canvas.create_oval(x1, y1, x2, y2, fill=fill, outline=outline,
+                                width=max(1, round(width * S)), tags="pet")
 
     def face(self, ey, gap, my=None, cheeks="#f78fa7"):
         """Eyes at height ey (pupils follow the cursor), optional smile at my, cheeks."""
@@ -90,7 +95,7 @@ class Pet:
             self.oval(hx - 3, hy - 3, hx + 3, hy + 3, "white")
         if my is not None:
             self.canvas.create_arc(CX - 9, my, CX + 9, my + 14, start=200, extent=140,
-                                   style="arc", width=3, tags="pet")
+                                   style="arc", width=2, tags="pet")
         cy = (my if my is not None else ey + 12) + 7
         for bx in (CX - gap - 14, CX + gap + 14):
             self.oval(bx - 7, cy - 3, bx + 7, cy + 3, cheeks)
@@ -110,11 +115,11 @@ class Pet:
         fur, edge, pink = "#ffc48a", "#f0a868", "#ffb3c1"
         c = self.canvas
         c.create_line(CX + 35, y + 68, CX + 78, y + 62, CX + 82, y + 22, smooth=True,
-                      width=14, fill=edge, capstyle="round", tags="pet")
+                      width=7, fill=edge, capstyle="round", tags="pet")
         self.oval(CX - 45, y + 10, CX + 45, y + 78, fur, edge, 2)
         for s_ in (-1, 1):
             c.create_polygon(CX + s_ * 48, y - 22, CX + s_ * 40, y - 66, CX + s_ * 10, y - 42,
-                             fill=fur, outline=edge, width=2, tags="pet")
+                             fill=fur, outline=edge, tags="pet")
             c.create_polygon(CX + s_ * 40, y - 28, CX + s_ * 37, y - 54, CX + s_ * 20, y - 40,
                              fill=pink, tags="pet")
         self.oval(CX - 52, y - 48, CX + 52, y + 36, fur, edge, 2)
@@ -122,7 +127,7 @@ class Pet:
             self.oval(CX + s_ * 18 - 12, y + 66, CX + s_ * 18 + 12, y + 82, fur, edge, 2)
             for dy in (6, 13):
                 c.create_line(CX + s_ * 22, y + dy, CX + s_ * 56, y + dy - 4 + dy // 3,
-                              fill=edge, width=2, tags="pet")
+                              fill=edge, tags="pet")
         self.face(y - 8, 22, y + 4)
 
     def bunny(self, y, lx, ly):
@@ -145,7 +150,7 @@ class Pet:
         self.oval(CX + 18, y + 18, CX + 62, y + 52, edge)
         self.oval(CX - 42, y - 58, CX + 42, y + 22, body, edge, 2)
         self.canvas.create_line(CX - 2, y - 56, CX - 8, y - 70, CX + 6, y - 64, smooth=True,
-                                width=3, fill=edge, tags="pet")
+                                width=2, fill=edge, tags="pet")
         self.face(y - 24, 17)
         self.oval(CX - 15, y - 12, CX + 15, y + 4, beak, "#f08a2c")
 
