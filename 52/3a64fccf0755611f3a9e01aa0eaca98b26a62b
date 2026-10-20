@@ -1,0 +1,19 @@
+installer.iss
+  s_c8c89555c1b438::t_23cc98ac3f2451 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "523a64fccf0755611f3a9e01aa0eaca98b26a62b",
+  "prompts": {},
+  "sessions": {
+    "s_c8c89555c1b438": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "eeef5ca9-1ac9-4565-b879-e4acf8e45e76",
+        "model": "unknown"
+      },
+      "human_author": "Nikhil Barik <nklmarch17@gmail.com>"
+    }
+  }
+}
